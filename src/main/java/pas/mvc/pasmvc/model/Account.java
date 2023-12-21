@@ -1,27 +1,34 @@
 package pas.mvc.pasmvc.model;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
-public class Account {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class Account {
     private UUID id;
-    @NotNull
     private String login;
-    private String email;
     private String password;
+    private String personalId;
+    boolean active = true;
 
     public String getAccountType() {
         return "INVALID";
     }
 
-    public Account(String login, String email, String password) {
+    public Account(String login, String password, String personalId) {
+        this.id = UUID.randomUUID();
         this.login = login;
-        this.email = email;
         this.password = password;
-    }
-
-    public Account() {
+        this.personalId = personalId;
+        active = true;
     }
 
     @Override
@@ -29,39 +36,7 @@ public class Account {
         return "Account{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", email='" + email + '\'' +
                 '}';
     }
 
-    public String getPassword() {
-        return "x";
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
