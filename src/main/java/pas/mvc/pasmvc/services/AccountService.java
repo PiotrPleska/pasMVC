@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.json.JSONObject;
 import pas.mvc.pasmvc.model.Account;
+import pas.mvc.pasmvc.model.ClientAccount;
 
 import java.util.Map;
 @ApplicationScoped
@@ -27,7 +28,7 @@ public class AccountService implements AutoCloseable {
     }
 
     public void createAccount(Account account) {
-        WebTarget target = client.target(API_BASE_URL).path("client/add");
+        WebTarget target = client.target(API_BASE_URL).path("client");
         JSONObject json = new JSONObject();
         json.put("login", account.getLogin());
         json.put("password", account.getPassword());
@@ -65,6 +66,21 @@ public class AccountService implements AutoCloseable {
         } else {
             System.out.println("Account not found for login: " + login);
             return false;
+        }
+    }
+
+    public String findIdByLogin(String login) {
+        WebTarget target = client.target(API_BASE_URL).path("login/" + login);
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+        if (response.getStatus() == 200) {
+            Map<String, Object> responseData = response.readEntity(new GenericType<Map<String, Object>>() {
+            });
+            return (String) responseData.get("id");
+        } else {
+            System.out.println("Account not found for login: " + login);
+            return null;
         }
     }
 

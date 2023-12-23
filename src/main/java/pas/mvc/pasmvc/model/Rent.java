@@ -23,14 +23,26 @@ public class Rent {
     private GregorianCalendar rentEndDate;
 
 
-    private ClientAccount clientAccount;
+    private String accountId;
+
+    private String roomId;
+
+    @Override
+    public String toString() {
+        return "Rent{" +
+                "rentId=" + rentId +
+                ", rentStartDate=" + rentStartDate +
+                ", rentEndDate=" + rentEndDate +
+                ", clientAccount='" + accountId + '\'' +
+                ", room='" + roomId + '\'' +
+                '}';
+    }
 
 
-    private Room room;
 
-    public Rent(GregorianCalendar rentStartDate, ClientAccount clientAccount, Room room) {
+    public Rent(GregorianCalendar rentStartDate, String clientAccount, String room) {
         this.rentStartDate = rentStartDate;
-        this.clientAccount = clientAccount;
-        this.room = room;
+        this.accountId = clientAccount;
+        this.roomId = room;
     }
 }

@@ -13,18 +13,15 @@
 <h1>RENT</h1>
 
 <%
-    ClientAccount user = (ClientAccount) request.getAttribute("user");
-    // Ensure that rooms is never null; if null, provide an empty list
+    String user = (String) request.getAttribute("user");
     List<Room> rooms = (List<Room>) request.getAttribute("rooms");
-    if (rooms == null) {
-        rooms = Collections.emptyList();
-    }
 %>
 
-<form action="${pageContext.request.contextPath}/rent" method="post">
+<form action="${pageContext.request.contextPath}/mvc/sth/rent" method="post">
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" name="userId" value="<%= user %>" readonly>
     <label for="rentStartDate">Rent Start Date:</label>
-    <input type="date" id="rentStartDate" name="rentStartDate" required>
-
+    <input type="datetime-local" id="rentStartDate" name="rentStartDate" required>
     <label for="roomId">Select Room:</label>
     <select id="roomId" name="roomId" required>
         <% if (!rooms.isEmpty()) { %>

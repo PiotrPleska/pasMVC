@@ -32,4 +32,12 @@
         </navigation-case>
     </navigation-rule>
 
+    <navigation-rule>
+        <from-view-id>/WEB-INF/views/rentRoom.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>forwardToEo</from-outcome>
+            <to-view-id>/WEB-INF/views/eo.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
 </faces-config>

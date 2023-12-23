@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pas.mvc.pasmvc.model.Room;
@@ -13,6 +14,7 @@ import pas.mvc.pasmvc.model.Room;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class RoomService implements AutoCloseable {
@@ -21,19 +23,45 @@ public class RoomService implements AutoCloseable {
     private final Client client = ClientBuilder.newClient();
 
     public List<Room> getRooms() {
-        WebTarget target = client.target(API_BASE_URL);
-        Response response = target
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-
-        String json = response.readEntity(String.class);
-
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(json, new TypeReference<List<Room>>() {});
-        } catch (IOException e) {
+            WebTarget target = client.target(API_BASE_URL);
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON)
+                    .get();
+
+            String json = response.readEntity(String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return objectMapper.readValue(json, new TypeReference<List<Room>>() {});
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             return Collections.emptyList();
+        }
+
+
+
+    }
+
+    public String findIdByRoomNumber(int roomNumber) {
+        try {
+            WebTarget target = client.target(API_BASE_URL).path("roomNumber/" + roomNumber);
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON)
+                    .get();
+            if (response.getStatus() == 200) {
+                Map<String, Object> responseData = response.readEntity(new GenericType<Map<String, Object>>() {
+                });
+                return (String) responseData.get("id");
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

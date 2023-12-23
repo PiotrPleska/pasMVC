@@ -17,6 +17,18 @@ public abstract class Account {
     private String login;
     private String password;
     private String personalId;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", personalId='" + personalId + '\'' +
+                ", active=" + active +
+                '}';
+    }
+
     boolean active = true;
 
     public String getAccountType() {
@@ -29,14 +41,6 @@ public abstract class Account {
         this.password = password;
         this.personalId = personalId;
         active = true;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                '}';
     }
 
 }

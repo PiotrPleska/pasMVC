@@ -32,4 +32,15 @@ public class Room {
         this.roomCapacity = roomCapacity;
         this.basePrice = basePrice;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", roomNumber=" + roomNumber +
+                ", roomCapacity=" + roomCapacity +
+                ", basePrice=" + basePrice +
+                ", isRented=" + isRented +
+                '}';
+    }
 }
