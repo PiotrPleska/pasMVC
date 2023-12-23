@@ -13,32 +13,47 @@ import jakarta.ws.rs.core.Response;
 import pas.mvc.pasmvc.model.*;
 import pas.mvc.pasmvc.services.AccountService;
 import jakarta.ws.rs.FormParam;
+import pas.mvc.pasmvc.services.RoomService;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @Path("/user")
 public class AccountController {
-    @Context
-    private HttpServletRequest request;
+//    @Inject
+//    private HttpServletRequest request;
+
+    @Inject
+    private Models models;
 
     @Inject
     private AccountService accountService;
 
+    @Inject
+    private RoomService roomService;
+
     @POST
     @Path("/create")
     @Consumes("application/x-www-form-urlencoded")
-    public Response  createUser(
+    public String  createUser(
             @FormParam("login") String login,
             @FormParam("password") String password,
             @FormParam("personalId") String personalId
     ) {
         ClientAccount user = new ClientAccount(login, password, personalId);
         accountService.createAccount(user);
-        request.setAttribute("user", user);
+        models.put("user", user);
+//        request.setAttribute("user", user);
 
-        return Response.seeOther(URI.create("/pasMVC-1.0-SNAPSHOT/rentRoom.jsp")).build();
+        List<Room> rooms = roomService.getRooms();
+        models.put("rooms", rooms);
+//        request.setAttribute("rooms", rooms);
+        return "rentRoom.jsp";
     }
 }

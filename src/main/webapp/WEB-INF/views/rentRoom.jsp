@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="pas.mvc.pasmvc.model.ClientAccount" %>
 <%@ page import="java.util.List" %>
+<%@ page import="pas.mvc.pasmvc.model.Room" %>
+<%@ page import="java.util.Collections" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +14,11 @@
 
 <%
     ClientAccount user = (ClientAccount) request.getAttribute("user");
-    // Modify the type and name according to your actual object structure
-//    List<String> rooms = (List<String>) request.getAttribute("rooms");
+    // Ensure that rooms is never null; if null, provide an empty list
+    List<Room> rooms = (List<Room>) request.getAttribute("rooms");
+    if (rooms == null) {
+        rooms = Collections.emptyList();
+    }
 %>
 
 <form action="${pageContext.request.contextPath}/rent" method="post">
@@ -22,13 +27,13 @@
 
     <label for="roomId">Select Room:</label>
     <select id="roomId" name="roomId" required>
-<%--        <% for (String room : rooms) { %>--%>
-<%--        <option value="<%= room %>"><%= room %></option>--%>
-<%--        <% } %>--%>
-        <option value="1">Room 1</option>
-        <option value="2">Room 2</option>
-        <option value="3">Room 3</option>
-        <option value="4">Room 4</option>
+        <% if (!rooms.isEmpty()) { %>
+        <% for (Room room : rooms) { %>
+        <option value="<%= room.getRoomNumber() %>"><%= room.getRoomNumber() %></option>
+        <% } %>
+        <% } else { %>
+        <option value="" disabled>No rooms available</option>
+        <% } %>
     </select>
 
     <button type="submit">Submit</button>

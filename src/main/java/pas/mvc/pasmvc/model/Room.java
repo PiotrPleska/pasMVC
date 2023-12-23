@@ -1,5 +1,6 @@
 package pas.mvc.pasmvc.model;
 
+import jakarta.inject.Named;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Named("room")
 public class Room {
     private UUID id;
 

@@ -25,4 +25,5 @@ public class RentController {
     public void createRent() {
 //        rentService.createRent();
     }
+
 }

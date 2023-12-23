@@ -11,8 +11,6 @@ import jakarta.ws.rs.core.Response;
 import org.json.JSONObject;
 import pas.mvc.pasmvc.model.Account;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 @ApplicationScoped
 public class AccountService implements AutoCloseable {
