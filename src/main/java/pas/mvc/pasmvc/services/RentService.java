@@ -41,7 +41,7 @@ public class RentService implements AutoCloseable {
         try (Response response = target
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(json.toString()))) {
-            System.out.println(response.readEntity(String.class));
+//            System.out.println(response.readEntity(String.class));
         } catch (Exception e) {
             e.printStackTrace();
         }

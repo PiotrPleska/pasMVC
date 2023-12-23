@@ -48,7 +48,7 @@ public class RoomService implements AutoCloseable {
 
     public String findIdByRoomNumber(int roomNumber) {
         try {
-            WebTarget target = client.target(API_BASE_URL).path("roomNumber/" + roomNumber);
+            WebTarget target = client.target(API_BASE_URL).path("room-number/" + roomNumber);
             Response response = target
                     .request(MediaType.APPLICATION_JSON)
                     .get();

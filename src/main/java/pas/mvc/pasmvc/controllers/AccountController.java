@@ -37,7 +37,7 @@ public class AccountController {
     @POST
     @Path("/user")
     @Consumes("application/x-www-form-urlencoded")
-    public String  createUser(
+    public String createUser(
             @FormParam("login") String login,
             @FormParam("password") String password,
             @FormParam("personalId") String personalId
@@ -54,9 +54,10 @@ public class AccountController {
     @POST
     @Path("/rent")
     @Consumes("application/x-www-form-urlencoded")
-    public String createRent(@FormParam("rentStartDate") String  rentStartDate,
-                           @FormParam("roomId") String roomNumber,
-                           @FormParam("accountId") String accountId) {
+    public String createRent(@FormParam("user") String user,
+                             @FormParam("rentStartDate") String rentStartDate,
+                             @FormParam("roomNumber") String roomNumber
+    ) {
 
 
 //        LocalDateTime localDateTime = LocalDateTime.now();
@@ -74,10 +75,11 @@ public class AccountController {
 //        GregorianCalendar gregorianCalendar = GregorianCalendar
 //                .from(localDateTime.atZone(zoneId));
 
-            String roomId = roomService.findIdByRoomNumber(Integer.parseInt(roomNumber));
-
-            Rent rent = new Rent(new GregorianCalendar(), "770b0c3d-9f99-4f50-a361-b3d8f2323174", "a47e78ab-c071-40b7-be73-c72a38bbcfce");
-            rentService.createRent(rent);
+        String roomId = roomService.findIdByRoomNumber(Integer.parseInt(roomNumber));
+//TODO check if room is available
+//TODO date still didnt work xdxddx
+        Rent rent = new Rent(new GregorianCalendar(), user, roomId);
+        rentService.createRent(rent);
         return "eo.jsp";
     }
 

@@ -18,20 +18,12 @@
 %>
 
 <form action="${pageContext.request.contextPath}/mvc/sth/rent" method="post">
-    <label for="userId">User ID:</label>
-    <input type="text" id="userId" name="userId" value="<%= user %>" readonly>
+    <label for="user">User ID:</label>
+    <input type="text" id="user" name="user" value="<%= user %>" readonly>
     <label for="rentStartDate">Rent Start Date:</label>
     <input type="datetime-local" id="rentStartDate" name="rentStartDate" required>
-    <label for="roomId">Select Room:</label>
-    <select id="roomId" name="roomId" required>
-        <% if (!rooms.isEmpty()) { %>
-        <% for (Room room : rooms) { %>
-        <option value="<%= room.getRoomNumber() %>"><%= room.getRoomNumber() %></option>
-        <% } %>
-        <% } else { %>
-        <option value="" disabled>No rooms available</option>
-        <% } %>
-    </select>
+    <label for="roomNumber">Select Room:</label>
+    <input type="number" id="roomNumber" name="roomNumber" required>
 
     <button type="submit">Submit</button>
 </form>

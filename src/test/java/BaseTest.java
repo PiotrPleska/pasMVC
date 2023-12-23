@@ -20,11 +20,19 @@ public class BaseTest {
 //        System.out.println(accountService.areLoginAndPersonalIdCorrect("nowyLogin", "45032103676"));
 //        RoomService roomService = new RoomService();
 //        System.out.println(roomService.getRooms());
-//        RentService rentService = new RentService();
-//        rentService.createRent(new Rent(new GregorianCalendar(), "770b0c3d-9f99-4f50-a361-b3d8f2323174", "a47e78ab-c071-40b7-be73-c72a38bbcfce"));
-//        for (RentGet rent : rentService.getRents()) {
-//            System.out.println(rent);
-//        }
+        RentService rentService = new RentService();
+        rentService.createRent(new Rent(new GregorianCalendar(), "770b0c3d-9f99-4f50-a361-b3d8f2323174", "a47e78ab-c071-40b7-be73-c72a38bbcfce"));
+        for (RentGet rent : rentService.getRents()) {
+            System.out.println(rent);
+        }
+//        RoomService roomService = new RoomService();
+//        System.out.println(roomService.findIdByRoomNumber(1));
+
+
+
+
+
+
         }
     }
 
