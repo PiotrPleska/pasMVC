@@ -1,39 +1,44 @@
 package pas.mvc.pasmvc.controllers;
 
+
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
 import jakarta.mvc.Models;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.mvc.View;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import pas.mvc.pasmvc.model.*;
+import pas.mvc.pasmvc.services.AccountService;
+import jakarta.ws.rs.FormParam;
 
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 
 @Controller
 @Path("/user")
 public class AccountController {
+    @Context
+    private HttpServletRequest request;
+
     @Inject
-    private Models models;
-
-
-
+    private AccountService accountService;
 
     @POST
     @Path("/create")
-    @Consumes("application/json")
-    public String createUser(ClientAccount user) {
-        // Code to send a POST request to the RESTful API and create a user
-        // You can use a RestClient or other HTTP client libraries
+    @Consumes("application/x-www-form-urlencoded")
+    public Response  createUser(
+            @FormParam("login") String login,
+            @FormParam("password") String password,
+            @FormParam("personalId") String personalId
+    ) {
+        ClientAccount user = new ClientAccount(login, password, personalId);
+        accountService.createAccount(user);
+        request.setAttribute("user", user);
 
-        // Example code (you may need to adjust based on your actual API):
-        // restClient.createUser(user);
-
-        // Add a success message to the model
-        models.put("message", "User created successfully");
-
-        // Return the view name (e.g., a JSP or HTML file)
-        return "userCreatedView";
+        return Response.seeOther(URI.create("/pasMVC-1.0-SNAPSHOT/rentRoom.jsp")).build();
     }
 }

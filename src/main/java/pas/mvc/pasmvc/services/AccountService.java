@@ -1,5 +1,6 @@
 package pas.mvc.pasmvc.services;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -13,7 +14,7 @@ import pas.mvc.pasmvc.model.Account;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+@ApplicationScoped
 public class AccountService implements AutoCloseable {
     private static final String API_BASE_URL = "http://localhost:8080/restapp-1.0-SNAPSHOT/api/accounts/";
     private final Client client = ClientBuilder.newClient();
@@ -75,3 +76,7 @@ public class AccountService implements AutoCloseable {
         client.close();
     }
 }
+
+// mamy forma gdzie podaje sie login haslo personalId, klika sie przycisk, jesli jest taki user to pokazywane sa jego renty
+// i mozna je zakonczyc oraz pokazuje sie form do nowego wypozyczenia
+// jesli nie ma takiego usera to jest dodawany do bazy danych i wyswietlany jest form do nowego wypozyczenia
