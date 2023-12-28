@@ -57,7 +57,8 @@ public class RentService implements AutoCloseable {
             String json = response.readEntity(String.class);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {});
+                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {
+                });
             } catch (IOException e) {
                 e.printStackTrace();
                 return Collections.emptyList();
@@ -79,7 +80,8 @@ public class RentService implements AutoCloseable {
             String json = response.readEntity(String.class);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {});
+                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {
+                });
             } catch (IOException e) {
                 e.printStackTrace();
                 return Collections.emptyList();
@@ -92,9 +94,14 @@ public class RentService implements AutoCloseable {
     }
 
 
+    public void endRent(String rentId) {
+        WebTarget target = client.target(API_BASE_URL).path(rentId);
+        target
+                .request(MediaType.APPLICATION_JSON)
+                .delete();
 
 
-
+    }
 
 
     public void close() {

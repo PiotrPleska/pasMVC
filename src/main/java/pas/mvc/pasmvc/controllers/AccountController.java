@@ -87,5 +87,12 @@ public class AccountController {
         return "eo.jsp";
     }
 
+    @POST
+    @Path("/rent/delete")
+    @Consumes("application/x-www-form-urlencoded")
+    public void deleteRent(@FormParam("rentId") String rentId) {
+        rentService.endRent(rentId);
+    }
+
 
 }

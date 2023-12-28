@@ -25,10 +25,11 @@ public class BaseTest {
 //        for (RentGet rent : rentService.getRents()) {
 //            System.out.println(rent);
 //        }
-        for (RentGet rent: rentService.getRentsByAccountId("4f13e18a-9701-4ec1-9c9f-b88773488a0d")) {
-            System.out.println(rent);
-
-        }
+//        for (RentGet rent: rentService.getRentsByAccountId("4f13e18a-9701-4ec1-9c9f-b88773488a0d")) {
+//            System.out.println(rent);
+//
+//        }
+        rentService.endRent("cb8ae4bb-7fd7-4523-8de9-3e4a066e9747");
 //        RoomService roomService = new RoomService();
 //        System.out.println(roomService.findIdByRoomNumber(1));
 

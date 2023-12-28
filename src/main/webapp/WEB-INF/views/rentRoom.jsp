@@ -56,7 +56,7 @@
         <td><%= rent.getRoom().getRoomNumber() %></td>
         <td>
             <% if (rent.getRentEndDate() == null) { %>
-            <form action="${pageContext.request.contextPath}/mvc/sth/rent" method="post">
+            <form action="${pageContext.request.contextPath}/mvc/sth/rent/delete" method="post">
                 <input type="hidden" name="rentId" value="<%= rent.getId() %>">
                 <button type="submit">End Rent</button>
             </form>
