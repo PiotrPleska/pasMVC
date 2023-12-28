@@ -11,10 +11,15 @@ import jakarta.ws.rs.FormParam;
 import pas.mvc.pasmvc.services.RentService;
 import pas.mvc.pasmvc.services.RoomService;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -57,28 +62,16 @@ public class AccountController {
     public String createRent(@FormParam("user") String user,
                              @FormParam("rentStartDate") String rentStartDate,
                              @FormParam("roomNumber") String roomNumber
-    ) {
+    ) throws ParseException {
 
-
-//        LocalDateTime localDateTime = LocalDateTime.now();
-//        System.out.println("Current System Date/time is :- \n"
-//                + localDateTime);
-//
-//
-//        // 2. get system default zone
-//        ZoneId zoneId = ZoneId.systemDefault();
-//        System.out.println("\nDefault System Zone is :- \n"
-//                + zoneId);
-//
-//
-//        // 3. convert LocalDate -> ZonedDateTime -> GregorianCalendar
-//        GregorianCalendar gregorianCalendar = GregorianCalendar
-//                .from(localDateTime.atZone(zoneId));
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date date = df.parse(rentStartDate);
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
 
         String roomId = roomService.findIdByRoomNumber(Integer.parseInt(roomNumber));
 //TODO check if room is available
-//TODO date still didnt work xdxddx
-        Rent rent = new Rent(new GregorianCalendar(), user, roomId);
+        Rent rent = new Rent(cal, user, roomId);
         rentService.createRent(rent);
         return "eo.jsp";
     }
