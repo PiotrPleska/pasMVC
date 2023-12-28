@@ -84,6 +84,21 @@ public class AccountService implements AutoCloseable {
         }
     }
 
+    public ClientAccount getAccountByLogin(String login) {
+        WebTarget target = client.target(API_BASE_URL).path("login/" + login);
+        Response response = target
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+        if (response.getStatus() == 200) {
+            Map<String, Object> responseData = response.readEntity(new GenericType<Map<String, Object>>() {
+            });
+            return new ClientAccount((String) responseData.get("login"), (String) responseData.get("password"), (String) responseData.get("personalId"));
+        } else {
+            System.out.println("Account not found for login: " + login);
+            return null;
+        }
+    }
+
 
     @Override
     public void close() throws Exception {

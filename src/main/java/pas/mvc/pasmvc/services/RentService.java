@@ -69,6 +69,34 @@ public class RentService implements AutoCloseable {
 
     }
 
+    public List<RentGet> getRentsByAccountId(String accountId) {
+        try {
+            WebTarget target = client.target(API_BASE_URL).path("account-id/" + accountId);
+            Response response = target
+                    .request(MediaType.APPLICATION_JSON)
+                    .get();
+
+            String json = response.readEntity(String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {});
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+
+    }
+
+
+
+
+
+
+
     public void close() {
         client.close();
     }

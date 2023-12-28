@@ -47,12 +47,23 @@ public class AccountController {
             @FormParam("password") String password,
             @FormParam("personalId") String personalId
     ) {
-        ClientAccount user = new ClientAccount(login, password, personalId);
-        accountService.createAccount(user);
+        ClientAccount user;
+        if(!accountService.IsAccountExistByLogin(login)) {
+            user = new ClientAccount(login, password, personalId);
+            accountService.createAccount(user);
+        } else
+        {
+            user = accountService.getAccountByLogin(login);
+        }
         String accountId = accountService.findIdByLogin(user.getLogin());
         models.put("user", accountId);
+
         List<Room> rooms = roomService.getRooms();
         models.put("rooms", rooms);
+
+        List<RentGet> rents = rentService.getRentsByAccountId(accountId);
+        models.put("rents", rents);
+
         return "rentRoom.jsp";
     }
 
