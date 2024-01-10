@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="pas.mvc.pasmvc.model.Room" %>
 <%@ page import="pas.mvc.pasmvc.model.RentGet" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Create User</title>
 </head>
 <body>
@@ -25,15 +25,20 @@
     <label for="roomNumber">Select Room:</label>
     <select id="roomNumber" name="roomNumber">
         <%
-            for (Room room : rooms) {
+            if (rooms != null) {
+                for (Room room : rooms) {
         %>
-        <option value="<%= room.getRoomNumber() %>"><%= room.getRoomNumber() %></option>
+        <option value="<%= room.getRoomNumber() %>"><%= room.getRoomNumber() %>
+        </option>
         <%
+                }
             }
         %>
     </select>
 
     <button type="submit">Submit</button>
+    <span style="color: red;"><%= (request.getAttribute("rentError") != null) ? request.getAttribute("rentError") : "" %></span>
+
 </form>
 
 <h2>Rent List</h2>
@@ -48,22 +53,36 @@
     </tr>
     </thead>
     <tbody>
-    <% for (RentGet rent : rents) { %>
+    <%
+        if (rents != null) {
+            for (RentGet rent : rents) {
+    %>
     <tr>
-        <td><%= rent.getAccount().getLogin() %></td>
-        <td><%= rent.getRentStartDate().getTime() %></td>
-        <td><%= rent.getRentEndDate() != null ? rent.getRentEndDate().getTime() : "Not Returned" %></td>
-        <td><%= rent.getRoom().getRoomNumber() %></td>
+        <td><%= rent.getAccount().getLogin() %>
+        </td>
+        <td><%= rent.getRentStartDate().getTime() %>
+        </td>
+        <td><%= rent.getRentEndDate() != null ? rent.getRentEndDate().getTime() : "Not Returned" %>
+        </td>
+        <td><%= rent.getRoom().getRoomNumber() %>
+        </td>
         <td>
             <% if (rent.getRentEndDate() == null) { %>
             <form action="${pageContext.request.contextPath}/mvc/sth/rent/delete" method="post">
                 <input type="hidden" name="rentId" value="<%= rent.getId() %>">
                 <button type="submit">End Rent</button>
+
+                <label>
+                    <input type="text" name="user" value="<%= user %>" readonly style="display: none;">
+                </label>
             </form>
             <% } %>
         </td>
     </tr>
-    <% } %>
+    <%
+            }
+        }
+    %>
     </tbody>
 </table>
 

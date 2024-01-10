@@ -20,7 +20,7 @@
         </message-bundle>
     </application>
     <navigation-rule>
-        <from-view-id>/index.html</from-view-id>
+        <from-view-id>/WEB-INF/views/index.jsp</from-view-id>
         <navigation-case>
             <from-outcome>forwardToRentRoom</from-outcome>
             <to-view-id>/WEB-INF/views/rentRoom.jsp</to-view-id>

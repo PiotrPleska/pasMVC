@@ -3,6 +3,7 @@ package pas.mvc.pasmvc.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -29,7 +30,7 @@ public class RentService implements AutoCloseable {
     private static final String API_BASE_URL = "http://localhost:8080/restapp-1.0-SNAPSHOT/api/rents/";
     private final Client client = ClientBuilder.newClient();
 
-    public void createRent(Rent rent) {
+    public Response createRent(Rent rent) {
         WebTarget target = client.target(API_BASE_URL);
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(rent.getRentStartDate().toInstant(), ZoneId.of("UTC"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -41,34 +42,15 @@ public class RentService implements AutoCloseable {
         try (Response response = target
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(json.toString()))) {
-//            System.out.println(response.readEntity(String.class));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<RentGet> getRents() {
-        try {
-            WebTarget target = client.target(API_BASE_URL);
-            Response response = target
-                    .request(MediaType.APPLICATION_JSON)
-                    .get();
-
-            String json = response.readEntity(String.class);
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                return objectMapper.readValue(json, new TypeReference<List<RentGet>>() {
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                return Collections.emptyList();
+            if (response.getStatus() == 409) {
+                return response;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Collections.emptyList();
         }
-
+        return Response.ok().build();
     }
+
 
     public List<RentGet> getRentsByAccountId(String accountId) {
         try {
